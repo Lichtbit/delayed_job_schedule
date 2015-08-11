@@ -1,0 +1,23 @@
+= delayed_job_schedule
+
+This gem provides a schedule plugin for delayed_job. The delayed_job[https://github.com/collectiveidea/delayed_job] worker will check after each loop for schedule tasks to do.
+
+== Pro
+ * use less memory than multiple workers for delayed_job and a scheduler (a.e. clockwork[https://github.com/tomykaira/clockwork])
+
+== Contra
+ * you can only time ranges
+ * currently it works only with one worker
+
+
+== Install
+
+Add delayed_job_schedule to your Gemfile:
+
+    gem 'delayed_job_schedule', git: 'https://github.com/milabent/delayed_job_schedule.git', branch: 'master'
+
+Use it in your initializer:
+
+    Delayed::Schedule.every(1.minutes) { Cache.clean_up! }
+    Delayed::Schedule.every(5.minutes) { Mailer.send_status }
+    Delayed::Schedule.every(3.hours) { Database.reimport }
