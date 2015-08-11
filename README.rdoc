@@ -3,10 +3,10 @@
 This gem provides a schedule plugin for delayed_job. The delayed_job[https://github.com/collectiveidea/delayed_job] worker will check after each loop for schedule tasks to do.
 
 == Pro
-* use less memory than multiple workers for delayed_job and a scheduler (a.e. clockwork[https://github.com/tomykaira/clockwork])
+* uses less memory than multiple workers for delayed_job and a scheduler (a.e. clockwork[https://github.com/tomykaira/clockwork])
 
 == Contra
-* you can only time ranges
+* you can only use time ranges
 * currently it works only with one worker
 
 
