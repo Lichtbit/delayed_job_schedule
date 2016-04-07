@@ -8,7 +8,15 @@ module Delayed
     end
 
     def self.run_tasks
-      @schedule_tasks.select(&:run_necessary?).each(&:perform)
+      @schedule_tasks ||= []
+      @schedule_tasks.select(&:run_necessary?).each do |task|
+        begin
+          task.perform
+        rescue Exception => e
+          Rails.logger.error e.message
+          Rails.logger.error e.backtrace.join("\n")
+        end
+      end
     end
 
     def self.every(time_range, &block)
