@@ -14,7 +14,7 @@ This gem provides a schedule plugin for delayed_job. The delayed_job[https://git
 
 Add delayed_job_schedule to your Gemfile:
 
-    gem 'delayed_job_schedule', git: 'https://github.com/milabent/delayed_job_schedule.git', branch: 'master'
+    gem 'delayed_job_schedule', git: 'https://github.com/lichtbit/delayed_job_schedule.git'
 
 Use it in your initializer:
 
