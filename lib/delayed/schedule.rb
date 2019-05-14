@@ -1,8 +1,7 @@
 module Delayed
   class Schedule < Plugin
-
     callbacks do |lifecycle|
-      lifecycle.before(:loop) do |worker, *args, &block|
+      lifecycle.before(:loop) do |_worker, *_args|
         Delayed::Schedule.run_tasks
       end
     end
@@ -10,12 +9,10 @@ module Delayed
     def self.run_tasks
       @schedule_tasks ||= []
       @schedule_tasks.select(&:run_necessary?).each do |task|
-        begin
-          task.perform
-        rescue Exception => e
-          Rails.logger.error e.message
-          Rails.logger.error e.backtrace.join("\n")
-        end
+        task.perform
+      rescue StandardError => e
+        Rails.logger.error e.message
+        Rails.logger.error e.backtrace.join("\n")
       end
     end
 
@@ -24,14 +21,14 @@ module Delayed
       @schedule_tasks.push(ScheduleTask.new(time_range, block))
     end
 
-    class ScheduleTask < Struct.new(:time_range, :block, :last_run)
+    ScheduleTask = Struct.new(:time_range, :block, :last_run) do
       def run_necessary?
-        self.last_run ||= Time.now
-        last_run.nil? || (last_run + time_range) < Time.now
+        self.last_run ||= Time.now.in_time_zone
+        last_run.nil? || (last_run + time_range) < Time.now.in_time_zone
       end
 
       def perform
-        self.last_run = Time.now
+        self.last_run = Time.now.in_time_zone
         block.call
       end
     end
