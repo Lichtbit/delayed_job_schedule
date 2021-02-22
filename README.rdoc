@@ -7,7 +7,6 @@ This gem provides a schedule plugin for delayed_job. The delayed_job[https://git
 
 == Contra
 * you can only use time ranges
-* currently it works only with one worker
 
 
 == Install
@@ -21,3 +20,7 @@ Use it in your initializer:
     Delayed::Schedule.every(1.minutes) { Cache.clean_up! }
     Delayed::Schedule.every(5.minutes) { Mailer.send_status }
     Delayed::Schedule.every(3.hours) { Database.reimport }
+
+    Delayed::Schedule.worker_select = -> (worker) do
+      worker.queues == [] || worker.queues == ['default']
+    end

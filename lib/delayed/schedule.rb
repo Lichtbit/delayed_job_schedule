@@ -1,8 +1,8 @@
 module Delayed
   class Schedule < Plugin
     callbacks do |lifecycle|
-      lifecycle.before(:loop) do |_worker, *_args|
-        Delayed::Schedule.run_tasks
+      lifecycle.before(:loop) do |worker, *_args|
+        Delayed::Schedule.run_tasks if Delayed::Schedule.run?(worker)
       end
     end
 
@@ -19,6 +19,14 @@ module Delayed
     def self.every(time_range, &block)
       @schedule_tasks ||= []
       @schedule_tasks.push(ScheduleTask.new(time_range, block))
+    end
+
+    def self.worker_select=(proc)
+      @worker_select = proc
+    end
+
+    def self.run?(worker)
+      !@worker_select.respond_to?(:call) || @worker_select.call(worker)
     end
 
     ScheduleTask = Struct.new(:time_range, :block, :last_run) do
