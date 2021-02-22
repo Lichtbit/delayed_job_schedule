@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.authors     = ['Georg Limbach']
   s.email       = ['georg.limbach@lichtbit.com']
   s.homepage    = 'https://lichtbit.com'
+  s.metadata    = { "source_code_uri" => 'https://github.com/lichtbit/delayed_job_schedule' }
   s.summary     = 'A plugin for delayed_job to schedule simple tasks.'
   s.description = 'A plugin for delayed_job to schedule simple tasks. It does not need a seperate worker and reduce ' \
                   'the memory usage.'
@@ -17,6 +18,6 @@ Gem::Specification.new do |s|
 
   s.files = Dir['lib/**/*', 'MIT-LICENSE', 'README.rdoc']
 
-  s.add_dependency 'delayed_job'
-  s.add_dependency 'rails'
+  s.add_dependency 'delayed_job', '~> 4.0'
+  s.add_dependency 'rails', '~> 4.0', '~> 5.0'
 end
