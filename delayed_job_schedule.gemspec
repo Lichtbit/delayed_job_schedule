@@ -18,6 +18,6 @@ Gem::Specification.new do |s|
 
   s.files = Dir['lib/**/*', 'MIT-LICENSE', 'README.rdoc']
 
-  s.add_dependency 'delayed_job', '~> 4.0'
-  s.add_dependency 'rails', '~> 5.0'
+  s.add_dependency 'delayed_job', '>= 4.0'
+  s.add_dependency 'rails', '>= 5.0'
 end
